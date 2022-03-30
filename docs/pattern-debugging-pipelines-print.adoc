@@ -122,7 +122,7 @@ An example of doing this, leveraging the prefix to show the <<reference#referenc
 func testRetryWithOneShotFailPublisher() {
     // setup
 
-    let _ = Fail(outputType: String.self, failure: TestFailureCondition.invalidServerResponse)
+    let cancellable = Fail(outputType: String.self, failure: TestFailureCondition.invalidServerResponse)
         .print("(1)>") <1>
         .retry(3)
         .print("(2)>") <2>
@@ -132,7 +132,8 @@ func testRetryWithOneShotFailPublisher() {
             XCTAssertNotNil(stringValue)
             print(" ** .sink() received \(stringValue)")
         })
-}
+    XCTAssertNotNil(cancellable)
+}testRetryWithOneShotFailPublisher
 ----
 
 <1> The `(1)` prefix is to show the interactions above the `retry` operator
